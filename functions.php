@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'SNAILWORLD_VERSION', '1.2.0' );
+define( 'SNAILWORLD_VERSION', '1.3.0' );
 define( 'SNAILWORLD_DIR', get_template_directory() );
 define( 'SNAILWORLD_URI', get_template_directory_uri() );
 
@@ -171,6 +171,7 @@ require SNAILWORLD_DIR . '/inc/ajax-search.php';
 require SNAILWORLD_DIR . '/inc/toc.php';
 require SNAILWORLD_DIR . '/inc/breadcrumbs.php';
 require SNAILWORLD_DIR . '/inc/schema-json-ld.php';
+require SNAILWORLD_DIR . '/inc/newsletter.php';
 require SNAILWORLD_DIR . '/inc/ads-txt.php';
 require SNAILWORLD_DIR . '/inc/performance.php';
 

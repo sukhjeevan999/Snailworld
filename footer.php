@@ -19,18 +19,44 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 			<?php snailworld_newsletter_block(); ?>
 
-			<?php if ( is_active_sidebar( 'footer-1' ) || is_active_sidebar( 'footer-2' ) || is_active_sidebar( 'footer-3' ) || is_active_sidebar( 'footer-4' ) ) : ?>
-				<div class="footer-widgets">
+			<?php
+			$footer_pages       = get_theme_mod( 'sw_footer_links_enable', true ) ? get_pages( array( 'sort_column' => 'menu_order,post_title' ) ) : array();
+			$cols               = absint( get_theme_mod( 'sw_footer_columns', 4 ) );
+			$has_widget_columns = false;
+			for ( $i = 1; $i <= $cols; $i++ ) {
+				if ( is_active_sidebar( 'footer-' . $i ) ) {
+					$has_widget_columns = true;
+					break;
+				}
+			}
+			?>
+			<div class="footer-widgets">
+				<div class="widget sw-footer-about">
+					<h2 class="widget-title"><?php echo esc_html( get_theme_mod( 'sw_footer_about_heading', __( 'About', 'snailworld' ) ) ); ?></h2>
+					<p><?php echo esc_html( get_theme_mod( 'sw_footer_about_text' ) ); ?></p>
+				</div>
+
+				<?php if ( ! empty( $footer_pages ) ) : ?>
+					<div class="widget sw-footer-links">
+						<h2 class="widget-title"><?php esc_html_e( 'Quick Links', 'snailworld' ); ?></h2>
+						<ul>
+							<?php foreach ( $footer_pages as $page ) : ?>
+								<li><a href="<?php echo esc_url( get_permalink( $page ) ); ?>"><?php echo esc_html( get_the_title( $page ) ); ?></a></li>
+							<?php endforeach; ?>
+						</ul>
+					</div>
+				<?php endif; ?>
+
+				<?php if ( $has_widget_columns ) : ?>
 					<?php
-					$cols = absint( get_theme_mod( 'sw_footer_columns', 4 ) );
 					for ( $i = 1; $i <= $cols; $i++ ) :
 						if ( is_active_sidebar( 'footer-' . $i ) ) :
 							dynamic_sidebar( 'footer-' . $i );
 						endif;
 					endfor;
 					?>
-				</div>
-			<?php endif; ?>
+				<?php endif; ?>
+			</div>
 		</div>
 
 		<div class="sw-container footer-bottom">

@@ -309,6 +309,37 @@ function snailworld_customize_register( $wp_customize ) {
 		'description' => __( 'Use [year] to auto-insert the current year.', 'snailworld' ),
 	) );
 
+	$wp_customize->add_setting( 'sw_footer_about_heading', array(
+		'default'           => __( 'About', 'snailworld' ),
+		'sanitize_callback' => 'sanitize_text_field',
+	) );
+	$wp_customize->add_control( 'sw_footer_about_heading', array(
+		'type'    => 'text',
+		'section' => 'sw_footer',
+		'label'   => __( 'Footer "About" column heading', 'snailworld' ),
+	) );
+
+	$wp_customize->add_setting( 'sw_footer_about_text', array(
+		'default'           => __( 'SnailWorld is a slow-living guide to gardens, snails, and the small creatures that make them thrive — practical care tips at your own pace.', 'snailworld' ),
+		'sanitize_callback' => 'sanitize_textarea_field',
+	) );
+	$wp_customize->add_control( 'sw_footer_about_text', array(
+		'type'    => 'textarea',
+		'section' => 'sw_footer',
+		'label'   => __( 'Footer "About" column text', 'snailworld' ),
+	) );
+
+	$wp_customize->add_setting( 'sw_footer_links_enable', array(
+		'default'           => true,
+		'sanitize_callback' => 'wp_validate_boolean',
+	) );
+	$wp_customize->add_control( 'sw_footer_links_enable', array(
+		'type'        => 'checkbox',
+		'section'     => 'sw_footer',
+		'label'       => __( 'Show a "Quick Links" footer column listing every published page', 'snailworld' ),
+		'description' => __( 'Automatic — no menu setup needed. Turn off if you\'d rather add your own Navigation Menu widget instead.', 'snailworld' ),
+	) );
+
 	$socials = array(
 		'facebook'  => __( 'Facebook URL', 'snailworld' ),
 		'instagram' => __( 'Instagram URL', 'snailworld' ),
@@ -334,12 +365,12 @@ function snailworld_customize_register( $wp_customize ) {
 	 * --------------------------------------------------------- */
 	$wp_customize->add_section( 'sw_newsletter', array(
 		'title'       => __( 'Newsletter (Footer)', 'snailworld' ),
-		'description' => __( 'Paste the signup form embed code from your email service (Mailchimp, Brevo, etc.) — get it from that service\'s "embedded form" / "signup form" option in their dashboard.', 'snailworld' ),
+		'description' => __( 'Works out of the box — signups are stored in wp-admin under "Subscribers" and you get an email for each one. To use Mailchimp/Brevo/etc instead, paste that service\'s signup-form embed code below and it takes over automatically.', 'snailworld' ),
 		'priority'    => 36,
 	) );
 
 	$wp_customize->add_setting( 'sw_newsletter_enable', array(
-		'default'           => false,
+		'default'           => true,
 		'sanitize_callback' => 'wp_validate_boolean',
 	) );
 	$wp_customize->add_control( 'sw_newsletter_enable', array(

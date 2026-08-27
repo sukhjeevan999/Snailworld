@@ -187,11 +187,7 @@ function snailworld_social_icons() {
  * and an embed code has actually been pasted in.
  */
 function snailworld_newsletter_block() {
-	if ( ! get_theme_mod( 'sw_newsletter_enable', false ) ) {
-		return;
-	}
-	$embed_code = get_theme_mod( 'sw_newsletter_embed_code', '' );
-	if ( ! trim( $embed_code ) ) {
+	if ( ! get_theme_mod( 'sw_newsletter_enable', true ) ) {
 		return;
 	}
 	?>
@@ -205,7 +201,15 @@ function snailworld_newsletter_block() {
 			<?php endif; ?>
 		</div>
 		<div class="sw-newsletter-form">
-			<?php echo $embed_code; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- trusted admin-entered embed code, see snailworld_sanitize_ad_code(). ?>
+			<?php
+			$embed_code = get_theme_mod( 'sw_newsletter_embed_code', '' );
+			if ( trim( $embed_code ) ) {
+				// Site owner has pasted a real Mailchimp/Brevo/etc embed — use that instead.
+				echo $embed_code; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- trusted admin-entered embed code, see snailworld_sanitize_ad_code().
+			} else {
+				snailworld_render_builtin_newsletter_form();
+			}
+			?>
 		</div>
 	</div>
 	<?php
