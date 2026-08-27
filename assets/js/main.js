@@ -31,17 +31,19 @@
 		if ( ! toggle || ! nav ) {
 			return;
 		}
+		// Body scroll is intentionally left unlocked while the menu is
+		// open: the menu itself has no inner scrollbox (max-height only,
+		// overflow visible), so if it ever has more items than fit the
+		// screen, the page's own natural scroll is what reveals the rest.
 		toggle.addEventListener( 'click', function () {
 			var isOpen = nav.classList.toggle( 'is-open' );
 			toggle.setAttribute( 'aria-expanded', isOpen ? 'true' : 'false' );
-			document.body.style.overflow = isOpen ? 'hidden' : '';
 		} );
 
 		nav.addEventListener( 'click', function ( e ) {
 			if ( e.target.tagName === 'A' ) {
 				nav.classList.remove( 'is-open' );
 				toggle.setAttribute( 'aria-expanded', 'false' );
-				document.body.style.overflow = '';
 			}
 		} );
 
