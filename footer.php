@@ -19,17 +19,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 			<?php snailworld_newsletter_block(); ?>
 
-			<?php
-			$footer_pages       = get_theme_mod( 'sw_footer_links_enable', true ) ? get_pages( array( 'sort_column' => 'menu_order,post_title' ) ) : array();
-			$cols               = absint( get_theme_mod( 'sw_footer_columns', 4 ) );
-			$has_widget_columns = false;
-			for ( $i = 1; $i <= $cols; $i++ ) {
-				if ( is_active_sidebar( 'footer-' . $i ) ) {
-					$has_widget_columns = true;
-					break;
-				}
-			}
-			?>
+			<?php $footer_pages = get_theme_mod( 'sw_footer_links_enable', true ) ? get_pages( array( 'sort_column' => 'menu_order,post_title' ) ) : array(); ?>
+
 			<div class="footer-widgets">
 				<div class="widget sw-footer-about">
 					<h2 class="widget-title"><?php echo esc_html( get_theme_mod( 'sw_footer_about_heading', __( 'About', 'snailworld' ) ) ); ?></h2>
@@ -47,15 +38,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 					</div>
 				<?php endif; ?>
 
-				<?php if ( $has_widget_columns ) : ?>
-					<?php
-					for ( $i = 1; $i <= $cols; $i++ ) :
-						if ( is_active_sidebar( 'footer-' . $i ) ) :
-							dynamic_sidebar( 'footer-' . $i );
-						endif;
-					endfor;
-					?>
-				<?php endif; ?>
+				<?php
+				// Any widgets the site owner drags into Appearance → Widgets'
+				// Footer Column areas stack in below, in order.
+				for ( $i = 1; $i <= 4; $i++ ) :
+					if ( is_active_sidebar( 'footer-' . $i ) ) :
+						dynamic_sidebar( 'footer-' . $i );
+					endif;
+				endfor;
+				?>
 			</div>
 		</div>
 

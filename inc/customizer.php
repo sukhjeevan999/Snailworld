@@ -287,17 +287,6 @@ function snailworld_customize_register( $wp_customize ) {
 		'priority' => 35,
 	) );
 
-	$wp_customize->add_setting( 'sw_footer_columns', array(
-		'default'           => 4,
-		'sanitize_callback' => 'absint',
-	) );
-	$wp_customize->add_control( 'sw_footer_columns', array(
-		'type'    => 'select',
-		'section' => 'sw_footer',
-		'label'   => __( 'Number of footer widget columns', 'snailworld' ),
-		'choices' => array( 2 => '2', 3 => '3', 4 => '4' ),
-	) );
-
 	$wp_customize->add_setting( 'sw_footer_copyright', array(
 		'default'           => sprintf( __( '© %s SnailWorld. All rights reserved.', 'snailworld' ), '[year]' ),
 		'sanitize_callback' => 'sanitize_text_field',
@@ -320,7 +309,7 @@ function snailworld_customize_register( $wp_customize ) {
 	) );
 
 	$wp_customize->add_setting( 'sw_footer_about_text', array(
-		'default'           => __( 'SnailWorld is a slow-living guide to gardens, snails, and the small creatures that make them thrive — practical care tips at your own pace.', 'snailworld' ),
+		'default'           => __( 'SnailWorld started as one small backyard obsession with garden snails and grew into a home for patient, slow-paced gardening — species profiles, feeding guides, and honest care tips for anyone tending a garden (or a terrarium) one quiet day at a time.', 'snailworld' ),
 		'sanitize_callback' => 'sanitize_textarea_field',
 	) );
 	$wp_customize->add_control( 'sw_footer_about_text', array(

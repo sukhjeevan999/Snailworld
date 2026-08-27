@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'SNAILWORLD_VERSION', '1.3.0' );
+define( 'SNAILWORLD_VERSION', '1.3.1' );
 define( 'SNAILWORLD_DIR', get_template_directory() );
 define( 'SNAILWORLD_URI', get_template_directory_uri() );
 
@@ -176,12 +176,11 @@ require SNAILWORLD_DIR . '/inc/ads-txt.php';
 require SNAILWORLD_DIR . '/inc/performance.php';
 
 /**
- * Body classes: header layout, sticky header, footer columns, texture.
+ * Body classes: header layout, sticky header, texture.
  */
 function snailworld_body_classes( $classes ) {
 	$classes[] = 'header-layout-' . get_theme_mod( 'sw_header_logo_position', 'left' );
 	$classes[] = get_theme_mod( 'sw_header_sticky', true ) ? 'header-is-sticky' : 'header-not-sticky';
-	$classes[] = 'footer-cols-' . absint( get_theme_mod( 'sw_footer_columns', 4 ) );
 
 	if ( get_theme_mod( 'sw_enable_texture', false ) ) {
 		$classes[] = 'has-texture';
