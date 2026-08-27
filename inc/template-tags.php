@@ -124,7 +124,8 @@ function snailworld_category_grid() {
 	$cats = get_categories( array(
 		'orderby'    => 'count',
 		'order'      => 'DESC',
-		'hide_empty' => true,
+		'exclude'    => array( get_option( 'default_category' ) ),
+		'hide_empty' => false, // Show categories as soon as they're created, not only once they have a published post.
 		'number'     => 8,
 	) );
 	if ( empty( $cats ) ) {

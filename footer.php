@@ -34,8 +34,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<div class="sw-container footer-bottom">
 			<p class="footer-copyright"><?php snailworld_copyright_text(); ?></p>
 
-			<?php if ( has_nav_menu( 'footer' ) ) : ?>
-				<nav class="footer-menu" aria-label="<?php esc_attr_e( 'Footer menu', 'snailworld' ); ?>">
+			<nav class="footer-menu" aria-label="<?php esc_attr_e( 'Footer menu', 'snailworld' ); ?>">
+				<?php if ( has_nav_menu( 'footer' ) ) : ?>
 					<?php
 					wp_nav_menu( array(
 						'theme_location' => 'footer',
@@ -45,8 +45,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 						'depth'          => 1,
 					) );
 					?>
-				</nav>
-			<?php endif; ?>
+				<?php else : ?>
+					<ul class="footer-menu-list">
+						<?php
+						// No footer menu assigned yet (Appearance → Menus) — list every
+						// published page automatically so the footer isn't empty.
+						wp_list_pages( array(
+							'title_li'    => '',
+							'sort_column' => 'menu_order,post_title',
+						) );
+						?>
+					</ul>
+				<?php endif; ?>
+			</nav>
 
 			<?php snailworld_social_icons(); ?>
 		</div>
