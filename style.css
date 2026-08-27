@@ -4,7 +4,7 @@ Theme URI: https://snailworld.com
 Author: SnailWorld
 Author URI: https://snailworld.com
 Description: A custom garden/snail-inspired WordPress theme for SnailWorld. Fully customizable via the WordPress Customizer, mobile-first responsive, AdSense-optimized and built for Core Web Vitals.
-Version: 1.1.0
+Version: 1.1.1
 Requires at least: 6.0
 Requires PHP: 7.4
 Tested up to: 6.6
@@ -103,8 +103,15 @@ table { border-collapse: collapse; width: 100%; }
 html { font-size: 100%; }
 
 body {
-	background-color: var(--sw-base);
-	color: var(--sw-text);
+	/* !important on these two: page builders/plugins (Elementor's Site
+	   Settings > Background is a common one) ship their own generic
+	   `body { background-color: ...; }` rule targeting the same element
+	   at equal specificity, which wins on load order alone and silently
+	   overrides the theme's background — leaving dark-mode text stranded
+	   on a light background. The theme owns this via its own dedicated
+	   Customizer color settings, so it's kept from being clobbered. */
+	background-color: var(--sw-base) !important;
+	color: var(--sw-text) !important;
 	font-family: var(--sw-font-body);
 	font-size: var(--sw-font-size-base);
 	line-height: 1.75;

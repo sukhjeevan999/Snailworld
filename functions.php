@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'SNAILWORLD_VERSION', '1.1.0' );
+define( 'SNAILWORLD_VERSION', '1.1.1' );
 define( 'SNAILWORLD_DIR', get_template_directory() );
 define( 'SNAILWORLD_URI', get_template_directory_uri() );
 
