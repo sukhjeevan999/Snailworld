@@ -330,6 +330,55 @@ function snailworld_customize_register( $wp_customize ) {
 	}
 
 	/* -----------------------------------------------------------
+	 * 6b. Newsletter (footer)
+	 * --------------------------------------------------------- */
+	$wp_customize->add_section( 'sw_newsletter', array(
+		'title'       => __( 'Newsletter (Footer)', 'snailworld' ),
+		'description' => __( 'Paste the signup form embed code from your email service (Mailchimp, Brevo, etc.) — get it from that service\'s "embedded form" / "signup form" option in their dashboard.', 'snailworld' ),
+		'priority'    => 36,
+	) );
+
+	$wp_customize->add_setting( 'sw_newsletter_enable', array(
+		'default'           => false,
+		'sanitize_callback' => 'wp_validate_boolean',
+	) );
+	$wp_customize->add_control( 'sw_newsletter_enable', array(
+		'type'    => 'checkbox',
+		'section' => 'sw_newsletter',
+		'label'   => __( 'Show newsletter signup in the footer', 'snailworld' ),
+	) );
+
+	$wp_customize->add_setting( 'sw_newsletter_heading', array(
+		'default'           => __( 'Join the Garden Newsletter', 'snailworld' ),
+		'sanitize_callback' => 'sanitize_text_field',
+	) );
+	$wp_customize->add_control( 'sw_newsletter_heading', array(
+		'type'    => 'text',
+		'section' => 'sw_newsletter',
+		'label'   => __( 'Heading', 'snailworld' ),
+	) );
+
+	$wp_customize->add_setting( 'sw_newsletter_subtext', array(
+		'default'           => __( 'Slow-living garden tips, once in a while — no spam.', 'snailworld' ),
+		'sanitize_callback' => 'sanitize_text_field',
+	) );
+	$wp_customize->add_control( 'sw_newsletter_subtext', array(
+		'type'    => 'text',
+		'section' => 'sw_newsletter',
+		'label'   => __( 'Subtext', 'snailworld' ),
+	) );
+
+	$wp_customize->add_setting( 'sw_newsletter_embed_code', array(
+		'default'           => '',
+		'sanitize_callback' => 'snailworld_sanitize_ad_code',
+	) );
+	$wp_customize->add_control( new SnailWorld_Textarea_Control( $wp_customize, 'sw_newsletter_embed_code', array(
+		'label'       => __( 'Signup form embed code', 'snailworld' ),
+		'description' => __( 'Raw HTML/JS embed code from Mailchimp, Brevo, ConvertKit, etc.', 'snailworld' ),
+		'section'     => 'sw_newsletter',
+	) ) );
+
+	/* -----------------------------------------------------------
 	 * 7. Homepage
 	 * --------------------------------------------------------- */
 	$wp_customize->add_section( 'sw_homepage', array(

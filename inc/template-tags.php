@@ -181,6 +181,37 @@ function snailworld_social_icons() {
 }
 
 /**
+ * Footer newsletter signup block — heading/subtext from the Customizer,
+ * plus the raw embed code pasted from the site owner's email service
+ * (Mailchimp, Brevo, etc.). Renders nothing until both the toggle is on
+ * and an embed code has actually been pasted in.
+ */
+function snailworld_newsletter_block() {
+	if ( ! get_theme_mod( 'sw_newsletter_enable', false ) ) {
+		return;
+	}
+	$embed_code = get_theme_mod( 'sw_newsletter_embed_code', '' );
+	if ( ! trim( $embed_code ) ) {
+		return;
+	}
+	?>
+	<div class="sw-newsletter">
+		<div class="sw-newsletter-copy">
+			<?php if ( get_theme_mod( 'sw_newsletter_heading' ) ) : ?>
+				<h2><?php echo esc_html( get_theme_mod( 'sw_newsletter_heading' ) ); ?></h2>
+			<?php endif; ?>
+			<?php if ( get_theme_mod( 'sw_newsletter_subtext' ) ) : ?>
+				<p><?php echo esc_html( get_theme_mod( 'sw_newsletter_subtext' ) ); ?></p>
+			<?php endif; ?>
+		</div>
+		<div class="sw-newsletter-form">
+			<?php echo $embed_code; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- trusted admin-entered embed code, see snailworld_sanitize_ad_code(). ?>
+		</div>
+	</div>
+	<?php
+}
+
+/**
  * Footer copyright text with [year] token replaced.
  */
 function snailworld_copyright_text() {

@@ -4,7 +4,7 @@ Theme URI: https://snailworld.com
 Author: SnailWorld
 Author URI: https://snailworld.com
 Description: A custom garden/snail-inspired WordPress theme for SnailWorld. Fully customizable via the WordPress Customizer, mobile-first responsive, AdSense-optimized and built for Core Web Vitals.
-Version: 1.1.5
+Version: 1.2.0
 Requires at least: 6.0
 Requires PHP: 7.4
 Tested up to: 6.6
@@ -563,6 +563,31 @@ article.type-post .entry-header { margin-bottom: 1.5rem; }
 [data-theme="dark"] .site-footer { background: #161911; }
 .site-footer a { color: rgba(255,255,255,.82); }
 .site-footer a:hover { color: #fff; }
+
+/* Newsletter — heading/subtext sit directly beside the embedded form
+   with no forced gap; the embed's own internal spacing (input, button)
+   comes from whatever HTML the email service gives you. */
+.sw-newsletter {
+	display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+	gap: 1rem 1.75rem; padding: 1.5rem 0; border-bottom: 1px solid rgba(255,255,255,.14);
+}
+.sw-newsletter-copy { flex: 1 1 260px; min-width: 0; }
+.sw-newsletter-copy h2 { color: #fff; font-size: 1.25rem; margin: 0; }
+.sw-newsletter-copy p { color: rgba(255,255,255,.75); font-size: .9rem; margin: .3rem 0 0; }
+.sw-newsletter-form { flex: 1 1 320px; min-width: 0; max-width: 420px; }
+.sw-newsletter-form form { display: flex; flex-wrap: wrap; gap: .6rem; margin: 0; }
+.sw-newsletter-form input[type="email"],
+.sw-newsletter-form input[type="text"] {
+	flex: 1 1 200px; min-width: 0; padding: .7rem 1rem; border-radius: 999px;
+	border: 1px solid rgba(255,255,255,.25); background: rgba(255,255,255,.08); color: #fff;
+}
+.sw-newsletter-form input::placeholder { color: rgba(255,255,255,.6); }
+.sw-newsletter-form button,
+.sw-newsletter-form input[type="submit"] {
+	flex: 0 0 auto; padding: .7rem 1.4rem; border-radius: 999px; border: 0; cursor: pointer;
+	background: var(--sw-accent); color: #fff; font-weight: 600;
+}
+
 .footer-widgets { padding: clamp(2.5rem,6vw,4rem) 0; display: grid; gap: 2.25rem; grid-template-columns: 1fr; }
 .footer-widgets .widget { background: rgba(255,255,255,.05); border-color: rgba(255,255,255,.12); }
 .footer-widgets .widget-title { border-bottom-color: rgba(255,255,255,.15); }
