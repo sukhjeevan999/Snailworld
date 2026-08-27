@@ -87,6 +87,7 @@
 				var iconWrap = document.createElement( 'span' );
 				iconWrap.className = 'sw-cat-icon-wrap';
 				iconWrap.style.setProperty( '--sw-cat-color', item.color );
+				iconWrap.style.setProperty( '--sw-cat-color-bg', hexToRgba( item.color, 0.15 ) );
 				iconWrap.innerHTML = buildIconSvg( item.icon );
 
 				var textWrap = document.createElement( 'span' );
@@ -112,6 +113,25 @@
 		function buildIconSvg( key ) {
 			var path = ( snailworldSearch.icons && snailworldSearch.icons[ key ] ) ? snailworldSearch.icons[ key ] : snailworldSearch.icons.leaf;
 			return '<svg class="sw-icon" viewBox="0 0 24 24" aria-hidden="true">' + path + '</svg>';
+		}
+
+		// Precomputed rgba() background for a hex accent color — kept in
+		// sync with the PHP-side snailworld_hex_to_rgba() helper so live
+		// search results match server-rendered category tints exactly,
+		// without depending on the CSS color-mix() function anywhere.
+		function hexToRgba( hex, alpha ) {
+			var clean = ( hex || '' ).replace( '#', '' );
+			if ( clean.length === 3 ) {
+				clean = clean.replace( /(.)/g, '$1$1' );
+			}
+			var match = /^([0-9a-f]{6})$/i.test( clean );
+			var r = 0, g = 0, b = 0;
+			if ( match ) {
+				r = parseInt( clean.substring( 0, 2 ), 16 );
+				g = parseInt( clean.substring( 2, 4 ), 16 );
+				b = parseInt( clean.substring( 4, 6 ), 16 );
+			}
+			return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
 		}
 
 		function escapeHtml( str ) {

@@ -117,6 +117,15 @@ function snailworld_get_term_color( $term_id ) {
 }
 
 /**
+ * Tinted background for a term's accent color (used behind category
+ * badges/icon circles). Precomputed in PHP as a plain rgba() string —
+ * deliberately not CSS color-mix(), see inc/customizer-output.php.
+ */
+function snailworld_get_term_color_bg( $term_id, $alpha = 0.15 ) {
+	return snailworld_hex_to_rgba( snailworld_get_term_color( $term_id ), $alpha );
+}
+
+/**
  * Get the "primary" category for a post (first assigned category).
  */
 function snailworld_get_primary_category( $post_id ) {
@@ -135,11 +144,13 @@ function snailworld_category_badge( $post_id = null, $echo = true ) {
 	}
 	$icon  = snailworld_get_term_icon( $cat->term_id );
 	$color = snailworld_get_term_color( $cat->term_id );
+	$bg    = snailworld_get_term_color_bg( $cat->term_id, 0.15 );
 
 	$html = sprintf(
-		'<a href="%1$s" class="sw-cat-tag" style="--sw-cat-color:%2$s">%3$s<span>%4$s</span></a>',
+		'<a href="%1$s" class="sw-cat-tag" style="--sw-cat-color:%2$s;--sw-cat-color-bg:%3$s">%4$s<span>%5$s</span></a>',
 		esc_url( get_category_link( $cat->term_id ) ),
 		esc_attr( $color ),
+		esc_attr( $bg ),
 		snailworld_icon( $icon, array( 'echo' => false ) ),
 		esc_html( $cat->name )
 	);

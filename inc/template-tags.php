@@ -134,10 +134,12 @@ function snailworld_category_grid() {
 	foreach ( $cats as $cat ) {
 		$icon  = snailworld_get_term_icon( $cat->term_id );
 		$color = snailworld_get_term_color( $cat->term_id );
+		$bg    = snailworld_get_term_color_bg( $cat->term_id, 0.15 );
 		printf(
-			'<a href="%1$s" class="sw-category-pill sw-reveal" style="--sw-cat-color:%2$s"><span class="sw-cat-icon-wrap">%3$s</span><span class="cat-name">%4$s</span><span class="cat-count">%5$s</span></a>',
+			'<a href="%1$s" class="sw-category-pill sw-reveal" style="--sw-cat-color:%2$s;--sw-cat-color-bg:%3$s"><span class="sw-cat-icon-wrap">%4$s</span><span class="cat-name">%5$s</span><span class="cat-count">%6$s</span></a>',
 			esc_url( get_category_link( $cat->term_id ) ),
 			esc_attr( $color ),
+			esc_attr( $bg ),
 			snailworld_icon( $icon, array( 'echo' => false ) ),
 			esc_html( $cat->name ),
 			/* translators: %d: number of posts. */

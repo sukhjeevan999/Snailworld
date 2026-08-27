@@ -15,6 +15,7 @@ get_header();
 $term  = get_queried_object();
 $icon  = $term ? snailworld_get_term_icon( $term->term_id ) : 'leaf';
 $color = $term ? snailworld_get_term_color( $term->term_id ) : get_theme_mod( 'sw_color_primary', '#52734D' );
+$bg    = $term ? snailworld_get_term_color_bg( $term->term_id, 0.15 ) : '';
 ?>
 
 <main id="primary" class="site-main">
@@ -22,7 +23,7 @@ $color = $term ? snailworld_get_term_color( $term->term_id ) : get_theme_mod( 's
 
 		<?php snailworld_breadcrumbs(); ?>
 
-		<header class="sw-archive-header sw-reveal" style="--sw-cat-color:<?php echo esc_attr( $color ); ?>">
+		<header class="sw-archive-header sw-reveal" style="--sw-cat-color:<?php echo esc_attr( $color ); ?>;--sw-cat-color-bg:<?php echo esc_attr( $bg ); ?>">
 			<span class="sw-cat-icon-wrap"><?php snailworld_icon( $icon ); ?></span>
 			<h1><?php single_cat_title(); ?></h1>
 			<?php

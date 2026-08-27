@@ -4,7 +4,7 @@ Theme URI: https://snailworld.com
 Author: SnailWorld
 Author URI: https://snailworld.com
 Description: A custom garden/snail-inspired WordPress theme for SnailWorld. Fully customizable via the WordPress Customizer, mobile-first responsive, AdSense-optimized and built for Core Web Vitals.
-Version: 1.0.0
+Version: 1.1.0
 Requires at least: 6.0
 Requires PHP: 7.4
 Tested up to: 6.6
@@ -43,19 +43,30 @@ a { text-decoration: none; color: inherit; }
 table { border-collapse: collapse; width: 100%; }
 
 /* =========================================================
-   1. CUSTOM PROPERTIES (fallback values — overridden by
-      Customizer inline styles in inc/customizer-output.php)
+   1. CUSTOM PROPERTIES
+   Fallback values only — the real, Customizer-driven values
+   (including derived ones like --sw-surface/--sw-border/
+   --sw-cat-color-bg) are computed in PHP and injected as an
+   inline <style> block by inc/customizer-output.php. Every
+   derived color is plain rgba()/hex — deliberately NOT
+   color-mix(), which a meaningful slice of real-world browsers
+   and in-app webviews still don't support, and which silently
+   drops the whole declaration (background/border vanish
+   entirely) where it's missing rather than degrading gracefully.
    ========================================================= */
 :root {
 	/* light palette */
 	--sw-base: #F7F3E7;
-	--sw-surface: #FFFFFF;
+	--sw-surface: #FBF8F1;
 	--sw-primary: #52734D;
 	--sw-secondary: #8A5E3C;
 	--sw-accent: #E08966;
 	--sw-text: #2A2823;
 	--sw-highlight: #D9AE5D;
 	--sw-border: rgba(42, 40, 35, 0.12);
+	--sw-header-bg: rgba(247, 243, 231, 0.92);
+	--sw-hero-glow: rgba(82, 115, 77, 0.12);
+	--sw-cat-color-bg-default: rgba(82, 115, 77, 0.15);
 
 	/* type */
 	--sw-font-heading: "Fraunces", "Noto Serif", serif;
@@ -81,6 +92,8 @@ table { border-collapse: collapse; width: 100%; }
 	--sw-text: #ECE7D9;
 	--sw-highlight: #E8C57E;
 	--sw-border: rgba(236, 231, 217, 0.14);
+	--sw-header-bg: rgba(29, 33, 25, 0.92);
+	--sw-hero-glow: rgba(143, 178, 132, 0.14);
 	color-scheme: dark;
 }
 
@@ -194,21 +207,34 @@ a { transition: color .25s ease; }
 .sw-icon-rotate-up { transform: rotate(-90deg); }
 
 /* =========================================================
-   4. SCROLL-IN ANIMATIONS (CSS only)
+   4. SCROLL-IN ANIMATIONS (CSS only, JS-independent)
+   .sw-reveal starts hidden and is normally revealed instantly
+   by JS (main.js) via IntersectionObserver as soon as an
+   element is in view — but it must never depend on JS alone:
+   a cache/optimization plugin that delays script execution
+   (common on shared hosting) can otherwise leave real content
+   invisible forever. The animation below is the guarantee: if
+   JS hasn't revealed the element within 1.2s, it reveals itself.
+   When JS does run first (the normal case), .is-visible takes
+   over and the animation is cancelled, so nothing double-fires.
    ========================================================= */
 .sw-reveal {
 	opacity: 0; transform: translateY(22px) scale(.98);
 	transition: opacity .7s cubic-bezier(.22,.61,.36,1), transform .7s cubic-bezier(.22,.61,.36,1);
+	animation: sw-reveal-fallback 0.01ms 1.2s forwards;
 }
-.sw-reveal.is-visible { opacity: 1; transform: none; }
+@keyframes sw-reveal-fallback {
+	to { opacity: 1; transform: none; }
+}
+.sw-reveal.is-visible { opacity: 1; transform: none; animation: none; }
 .js .sw-reveal { will-change: opacity, transform; }
-.no-js .sw-reveal { opacity: 1; transform: none; }
+.no-js .sw-reveal { opacity: 1; transform: none; animation: none; }
 
 /* =========================================================
    5. HEADER
    ========================================================= */
 .site-header {
-	background: color-mix(in srgb, var(--sw-base) 92%, transparent);
+	background: var(--sw-header-bg);
 	backdrop-filter: saturate(140%) blur(10px);
 	border-bottom: 1px solid var(--sw-border);
 	position: relative; z-index: 500;
@@ -293,7 +319,7 @@ a { transition: color .25s ease; }
    ========================================================= */
 .sw-hero {
 	position: relative; padding: clamp(3rem,8vw,6rem) 0; overflow: hidden;
-	background: radial-gradient(120% 100% at 15% 0%, color-mix(in srgb, var(--sw-primary) 12%, transparent), transparent 60%);
+	background: radial-gradient(120% 100% at 15% 0%, var(--sw-hero-glow), transparent 60%);
 }
 .sw-hero-grid { display: grid; grid-template-columns: 1fr; gap: clamp(2rem,5vw,3.5rem); align-items: center; }
 .sw-hero-eyebrow { display: inline-flex; align-items: center; gap: .5rem; color: var(--sw-accent); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; font-size: .78rem; margin-bottom: 1rem; }
@@ -346,7 +372,7 @@ a { transition: color .25s ease; }
 .sw-cat-tag {
 	display: inline-flex; align-items: center; gap: .4rem; align-self: flex-start; font-size: .74rem; font-weight: 700;
 	text-transform: uppercase; letter-spacing: .04em; padding: .3rem .65rem; border-radius: 999px;
-	background: color-mix(in srgb, var(--sw-cat-color, var(--sw-primary)) 14%, transparent); color: var(--sw-cat-color, var(--sw-primary));
+	background: var(--sw-cat-color-bg, var(--sw-cat-color-bg-default)); color: var(--sw-cat-color, var(--sw-primary));
 }
 .sw-cat-tag .sw-icon { width: 1em; height: 1em; }
 .sw-card h3 { margin: 0; font-size: 1.1rem; }
@@ -375,7 +401,7 @@ a { transition: color .25s ease; }
 .sw-category-pill:hover { transform: translateY(-4px); border-color: var(--sw-cat-color, var(--sw-accent)); }
 .sw-category-pill .sw-cat-icon-wrap {
 	width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-	background: color-mix(in srgb, var(--sw-cat-color, var(--sw-primary)) 15%, transparent); color: var(--sw-cat-color, var(--sw-primary));
+	background: var(--sw-cat-color-bg, var(--sw-cat-color-bg-default)); color: var(--sw-cat-color, var(--sw-primary));
 }
 .sw-category-pill .sw-icon { width: 1.7em; height: 1.7em; }
 .sw-category-pill span.cat-name { font-weight: 600; font-size: .92rem; }
@@ -392,7 +418,7 @@ a { transition: color .25s ease; }
 }
 
 .sw-archive-header { margin-bottom: clamp(1.5rem,4vw,2.5rem); padding-bottom: 1.5rem; border-bottom: 1px solid var(--sw-border); }
-.sw-archive-header .sw-cat-icon-wrap { width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; background: color-mix(in srgb, var(--sw-cat-color, var(--sw-primary)) 15%, transparent); color: var(--sw-cat-color, var(--sw-primary)); }
+.sw-archive-header .sw-cat-icon-wrap { width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; background: var(--sw-cat-color-bg, var(--sw-cat-color-bg-default)); color: var(--sw-cat-color, var(--sw-primary)); }
 .sw-archive-header .sw-cat-icon-wrap .sw-icon { width: 1.9em; height: 1.9em; }
 .sw-archive-header p { color: var(--sw-secondary); max-width: 60ch; margin-top: .6rem; }
 
@@ -500,7 +526,7 @@ article.type-post .entry-header { margin-bottom: 1.5rem; }
 .sw-search-results { margin-top: 1.25rem; display: flex; flex-direction: column; gap: .6rem; }
 .sw-search-result { display: flex; gap: .9rem; align-items: center; padding: .7rem; border-radius: var(--sw-radius-sm); }
 .sw-search-result:hover { background: var(--sw-surface); }
-.sw-search-result .sw-cat-icon-wrap { width: 42px; height: 42px; flex-shrink: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: color-mix(in srgb, var(--sw-cat-color, var(--sw-primary)) 16%, transparent); color: var(--sw-cat-color, var(--sw-primary)); }
+.sw-search-result .sw-cat-icon-wrap { width: 42px; height: 42px; flex-shrink: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--sw-cat-color-bg, var(--sw-cat-color-bg-default)); color: var(--sw-cat-color, var(--sw-primary)); }
 .sw-search-result .sw-cat-icon-wrap .sw-icon { width: 1.3em; height: 1.3em; }
 .sw-search-result-title { font-weight: 600; font-size: .95rem; }
 .sw-search-result-excerpt { font-size: .8rem; color: var(--sw-secondary); }

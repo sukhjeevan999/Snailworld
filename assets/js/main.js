@@ -2,6 +2,12 @@
  * SnailWorld — core theme interactions.
  * Vanilla JS, no dependencies. Mobile nav, dark-mode toggle, scroll-reveal
  * animations, snail reading-progress bar, sticky header state, back-to-top.
+ *
+ * Note: the .sw-reveal scroll-in effect this file drives is an enhancement,
+ * not a requirement — style.css gives every .sw-reveal element a pure-CSS
+ * fallback that reveals it on its own after ~1.2s, so content never stays
+ * invisible if this script is delayed or blocked (some hosting/cache
+ * optimizers defer all JS until user interaction).
  */
 ( function () {
 	'use strict';
@@ -80,7 +86,8 @@
 
 	/* ---------------------------------------------------------
 	 * Scroll-reveal (CSS-driven, IntersectionObserver only toggles
-	 * a class — no animation logic runs in JS).
+	 * a class — no animation logic runs in JS). See the file header
+	 * note: this is a nicety on top of the guaranteed CSS fallback.
 	 * --------------------------------------------------------- */
 	function initScrollReveal() {
 		var els = document.querySelectorAll( '.sw-reveal' );

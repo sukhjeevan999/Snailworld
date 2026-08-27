@@ -21,6 +21,19 @@ Pro if you choose to use it, but not required.
 4. Set up your menus: **Appearance → Menus** → assign a menu to **Primary Menu** and, optionally, **Footer Menu**.
 5. Set your homepage: **Settings → Reading** → "A static page" with a Homepage set (the theme uses `front-page.php` regardless, so "Your latest posts" also works out of the box).
 
+## If your host runs aggressive CSS/JS optimization
+
+Some hosting stacks (Hostinger + LiteSpeed Cache is a common one, also
+WP Rocket / Autoptimize / Elementor's own "Optimized CSS Loading") ship
+with **"Remove Unused CSS"**, **"Critical CSS"**, or **"Delay JS
+Execution"** turned on by default. These crawl the *previous* theme's
+markup and cache the result — after switching themes, that stale cache
+can strip real, in-use CSS/JS from the page until it's purged. If the
+site looks unstyled or partially broken right after activating this
+theme: purge all caches, then temporarily disable those specific
+optimization features, reload, and re-enable them once you confirm the
+new cache regenerates correctly against this theme's markup.
+
 ## What's editable from wp-admin (zero code edits)
 
 Everything lives under **Appearance → Customize**:
@@ -59,7 +72,7 @@ snailworld/
 ├── inc/
 │   ├── customizer.php          all Customizer sections/settings
 │   ├── customizer-controls.php custom range / font-pair / textarea controls
-│   ├── customizer-output.php   turns settings into an inline CSS var block + dark-mode boot script
+│   ├── customizer-output.php   turns settings into an inline CSS var block + hex-color helpers + dark-mode boot script
 │   ├── icons.php                inline garden/snail SVG icon set (Lucide-style line art)
 │   ├── category-meta.php       per-category icon + color (term meta) admin UI
 │   ├── template-tags.php       entry meta, pagination, author box, social icons…
@@ -89,8 +102,7 @@ snailworld/
   sticky on desktop (≥1088px) next to the sidebar, a collapsible
   `<details>` element everywhere else, with scrollspy highlighting.
 - **Reading progress** — a slim bar fixed to the top of singular posts,
-  with a small snail riding the leading edge of the fill as you scroll
-  (`inc/toc.php` pairs with the visual bar in `header.php`/`assets/js/main.js`).
+  with a small snail riding the leading edge of the fill as you scroll.
 - **Structured data** — `inc/schema-json-ld.php` prints Organization schema
   on every page, BreadcrumbList schema (built from the same items as the
   visual breadcrumbs) wherever breadcrumbs show, and Article schema on
@@ -107,6 +119,26 @@ snailworld/
 - **Performance** — native image lazy-loading, `fetchpriority=high` on the
   likely LCP image, deferred non-critical JS, emoji script/RSD/oEmbed
   discovery links removed from `<head>`, Google Fonts preconnect.
+
+## Two robustness choices worth knowing about
+
+- **No CSS `color-mix()` anywhere.** Every derived color (card/surface
+  backgrounds, borders, the header's translucent background, category-tint
+  backgrounds) is precomputed once in PHP (`inc/customizer-output.php`'s
+  `snailworld_hex_to_rgba()` / `snailworld_blend_hex()` helpers, mirrored
+  in JS for live-search results) and shipped as plain `rgba()`/hex. Plenty
+  of real browsers and in-app webviews still don't support `color-mix()`,
+  and where it's missing the *whole* declaration is dropped — not just
+  the color — so backgrounds/borders vanish outright rather than
+  degrading gracefully.
+- **Scroll-reveal never depends on JS alone.** Elements with `.sw-reveal`
+  (hero copy, cards, category pills, TOC) are normally revealed instantly
+  by `main.js` via `IntersectionObserver`, but style.css also gives every
+  `.sw-reveal` element a pure-CSS fallback animation that reveals it on
+  its own after ~1.2s if JS hasn't. This matters because some hosting/cache
+  setups delay all JavaScript until the visitor interacts with the page —
+  without this fallback, that would leave real content (like the hero
+  heading and its buttons) invisible indefinitely.
 
 ## Manual production step (optional)
 
