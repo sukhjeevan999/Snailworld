@@ -4,7 +4,7 @@ Theme URI: https://snailworld.com
 Author: SnailWorld
 Author URI: https://snailworld.com
 Description: A custom garden/snail-inspired WordPress theme for SnailWorld. Fully customizable via the WordPress Customizer, mobile-first responsive, AdSense-optimized and built for Core Web Vitals.
-Version: 1.4.1
+Version: 1.4.2
 Requires at least: 6.0
 Requires PHP: 7.4
 Tested up to: 6.6
@@ -356,24 +356,17 @@ a { transition: color .25s ease; }
 .sw-section-head h2 { margin: 0; }
 .sw-section-kicker { color: var(--sw-accent); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; font-size: .78rem; margin-bottom: .4rem; display: block; }
 
+/* Every card the same: landscape thumbnail, same title size, same
+   layout — no "featured/bigger" first card, by request (uniform grid
+   instead of an asymmetric magazine layout). */
 .sw-garden-grid {
-	display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sw-gap);
+	display: grid; grid-template-columns: 1fr; gap: var(--sw-gap);
 }
-.sw-garden-grid .sw-card:nth-child(6n+1) { grid-column: span 4; }
-.sw-garden-grid .sw-card:nth-child(6n+2),
-.sw-garden-grid .sw-card:nth-child(6n+3) { grid-column: span 2; }
-.sw-garden-grid .sw-card:not(:nth-child(6n+1)):not(:nth-child(6n+2)):not(:nth-child(6n+3)) { grid-column: span 4; }
-
 @media (min-width: 48em) {
-	.sw-garden-grid .sw-card:not(:nth-child(6n+1)):not(:nth-child(6n+2)):not(:nth-child(6n+3)) { grid-column: span 2; }
+	.sw-garden-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (min-width: 62em) {
-	.sw-garden-grid .sw-card:nth-child(6n+1) { grid-column: span 2; }
-	.sw-garden-grid .sw-card:not(:nth-child(6n+1)):not(:nth-child(6n+2)):not(:nth-child(6n+3)) { grid-column: span 1; }
-}
-@media (max-width: 47.99em) {
-	.sw-garden-grid { grid-template-columns: 1fr; }
-	.sw-garden-grid .sw-card { grid-column: span 1 !important; }
+	.sw-garden-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
 .sw-card {
@@ -398,13 +391,6 @@ a { transition: color .25s ease; }
 .sw-card-excerpt { color: var(--sw-secondary); font-size: .92rem; }
 .sw-card-meta { display: flex; flex-wrap: wrap; align-items: center; gap: .3rem .6rem; font-size: .78rem; color: var(--sw-secondary); margin-top: auto; padding-top: .5rem; }
 
-.sw-garden-grid .sw-card:nth-child(6n+1) .sw-card-media { aspect-ratio: 21/9; }
-@media (min-width: 48em) {
-	.sw-garden-grid .sw-card:nth-child(6n+1) { display: grid; grid-template-columns: 1.1fr .9fr; }
-	.sw-garden-grid .sw-card:nth-child(6n+1) .sw-card-media { aspect-ratio: auto; height: 100%; }
-	.sw-garden-grid .sw-card:nth-child(6n+1) .sw-card-body { justify-content: center; }
-	.sw-garden-grid .sw-card:nth-child(6n+1) h3 { font-size: 1.5rem; }
-}
 
 /* category icon grid (homepage) */
 .sw-category-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1.1rem; }
