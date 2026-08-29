@@ -151,6 +151,18 @@ function snailworld_category_grid() {
 }
 
 /**
+ * Whether at least one social URL is set.
+ */
+function snailworld_has_social_links() {
+	foreach ( array( 'facebook', 'instagram', 'twitter', 'youtube', 'pinterest' ) as $key ) {
+		if ( get_theme_mod( 'sw_social_' . $key ) ) {
+			return true;
+		}
+	}
+	return false;
+}
+
+/**
  * Footer social icon links, only for the ones filled in.
  */
 function snailworld_social_icons() {
@@ -181,25 +193,23 @@ function snailworld_social_icons() {
 }
 
 /**
- * Footer newsletter signup block — heading/subtext from the Customizer,
+ * Footer newsletter signup column — heading/subtext from the Customizer,
  * plus the raw embed code pasted from the site owner's email service
- * (Mailchimp, Brevo, etc.). Renders nothing until both the toggle is on
- * and an embed code has actually been pasted in.
+ * (Mailchimp, Brevo, etc.) if they've added one, else the theme's own
+ * built-in signup form. Renders nothing if the toggle is off.
  */
 function snailworld_newsletter_block() {
 	if ( ! get_theme_mod( 'sw_newsletter_enable', true ) ) {
 		return;
 	}
 	?>
-	<div class="sw-newsletter">
-		<div class="sw-newsletter-copy">
-			<?php if ( get_theme_mod( 'sw_newsletter_heading' ) ) : ?>
-				<h2><?php echo esc_html( get_theme_mod( 'sw_newsletter_heading' ) ); ?></h2>
-			<?php endif; ?>
-			<?php if ( get_theme_mod( 'sw_newsletter_subtext' ) ) : ?>
-				<p><?php echo esc_html( get_theme_mod( 'sw_newsletter_subtext' ) ); ?></p>
-			<?php endif; ?>
-		</div>
+	<div class="widget sw-newsletter">
+		<?php if ( get_theme_mod( 'sw_newsletter_heading' ) ) : ?>
+			<h2 class="widget-title"><?php echo esc_html( get_theme_mod( 'sw_newsletter_heading' ) ); ?></h2>
+		<?php endif; ?>
+		<?php if ( get_theme_mod( 'sw_newsletter_subtext' ) ) : ?>
+			<p class="sw-newsletter-subtext"><?php echo esc_html( get_theme_mod( 'sw_newsletter_subtext' ) ); ?></p>
+		<?php endif; ?>
 		<div class="sw-newsletter-form">
 			<?php
 			$embed_code = get_theme_mod( 'sw_newsletter_embed_code', '' );

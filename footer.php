@@ -17,15 +17,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<?php snailworld_icon( 'leaf-vine' ); ?>
 			</div>
 
-			<?php snailworld_newsletter_block(); ?>
-
 			<?php $footer_pages = get_theme_mod( 'sw_footer_links_enable', true ) ? get_pages( array( 'sort_column' => 'menu_order,post_title' ) ) : array(); ?>
 
+			<!-- Order: Newsletter, Social, Quick Links, About — 4 columns on
+			     desktop, stacked one-per-row on mobile. -->
 			<div class="footer-widgets">
-				<div class="widget sw-footer-about">
-					<h2 class="widget-title"><?php echo esc_html( get_theme_mod( 'sw_footer_about_heading', __( 'About', 'snailworld' ) ) ); ?></h2>
-					<p><?php echo esc_html( get_theme_mod( 'sw_footer_about_text' ) ); ?></p>
-				</div>
+				<?php snailworld_newsletter_block(); ?>
+
+				<?php if ( snailworld_has_social_links() ) : ?>
+					<div class="widget sw-footer-social">
+						<h2 class="widget-title"><?php esc_html_e( 'Follow Us', 'snailworld' ); ?></h2>
+						<?php snailworld_social_icons(); ?>
+					</div>
+				<?php endif; ?>
 
 				<?php if ( ! empty( $footer_pages ) ) : ?>
 					<div class="widget sw-footer-links">
@@ -38,9 +42,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 					</div>
 				<?php endif; ?>
 
+				<div class="widget sw-footer-about">
+					<h2 class="widget-title"><?php echo esc_html( get_theme_mod( 'sw_footer_about_heading', __( 'About', 'snailworld' ) ) ); ?></h2>
+					<p><?php echo esc_html( get_theme_mod( 'sw_footer_about_text' ) ); ?></p>
+				</div>
+
 				<?php
 				// Any widgets the site owner drags into Appearance → Widgets'
-				// Footer Column areas stack in below, in order.
+				// Footer Column areas stack in as extra columns.
 				for ( $i = 1; $i <= 4; $i++ ) :
 					if ( is_active_sidebar( 'footer-' . $i ) ) :
 						dynamic_sidebar( 'footer-' . $i );
@@ -52,22 +61,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<div class="sw-container footer-bottom">
 			<p class="footer-copyright"><?php snailworld_copyright_text(); ?></p>
-
-			<?php if ( has_nav_menu( 'footer' ) ) : ?>
-				<nav class="footer-menu" aria-label="<?php esc_attr_e( 'Footer menu', 'snailworld' ); ?>">
-					<?php
-					wp_nav_menu( array(
-						'theme_location' => 'footer',
-						'container'      => false,
-						'menu_class'     => 'footer-menu-list',
-						'fallback_cb'    => false,
-						'depth'          => 1,
-					) );
-					?>
-				</nav>
-			<?php endif; ?>
-
-			<?php snailworld_social_icons(); ?>
 		</div>
 	</footer>
 </div><!-- .site -->

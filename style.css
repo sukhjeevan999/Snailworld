@@ -4,7 +4,7 @@ Theme URI: https://snailworld.com
 Author: SnailWorld
 Author URI: https://snailworld.com
 Description: A custom garden/snail-inspired WordPress theme for SnailWorld. Fully customizable via the WordPress Customizer, mobile-first responsive, AdSense-optimized and built for Core Web Vitals.
-Version: 1.3.1
+Version: 1.4.0
 Requires at least: 6.0
 Requires PHP: 7.4
 Tested up to: 6.6
@@ -564,21 +564,13 @@ article.type-post .entry-header { margin-bottom: 1.5rem; }
 .site-footer a { color: rgba(255,255,255,.82); }
 .site-footer a:hover { color: #fff; }
 
-/* Newsletter — heading/subtext sit directly beside the embedded form
-   with no forced gap; the embed's own internal spacing (input, button)
-   comes from whatever HTML the email service gives you. */
-.sw-newsletter {
-	display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
-	gap: 1rem 1.75rem; padding: 1.5rem 0; border-bottom: 1px solid rgba(255,255,255,.14);
-}
-.sw-newsletter-copy { flex: 1 1 260px; min-width: 0; }
-.sw-newsletter-copy h2 { color: #fff; font-size: 1.25rem; margin: 0; }
-.sw-newsletter-copy p { color: rgba(255,255,255,.75); font-size: .9rem; margin: .3rem 0 0; }
-.sw-newsletter-form { flex: 1 1 320px; min-width: 0; max-width: 420px; }
+/* Newsletter, Social, Quick Links, About: four equal columns on
+   desktop, stacked one-per-row on mobile — see .footer-widgets below. */
+.sw-newsletter-subtext { color: rgba(255,255,255,.75); font-size: .9rem; margin: 0 0 .9rem; }
 .sw-newsletter-form form { display: flex; flex-wrap: wrap; gap: .6rem; margin: 0; }
 .sw-newsletter-form input[type="email"],
 .sw-newsletter-form input[type="text"] {
-	flex: 1 1 200px; min-width: 0; padding: .7rem 1rem; border-radius: 999px;
+	flex: 1 1 140px; min-width: 0; padding: .7rem 1rem; border-radius: 999px;
 	border: 1px solid rgba(255,255,255,.25); background: rgba(255,255,255,.08); color: #fff;
 }
 .sw-newsletter-form input::placeholder { color: rgba(255,255,255,.6); }
@@ -587,20 +579,24 @@ article.type-post .entry-header { margin-bottom: 1.5rem; }
 	flex: 0 0 auto; padding: .7rem 1.4rem; border-radius: 999px; border: 0; cursor: pointer;
 	background: var(--sw-accent); color: #fff; font-weight: 600;
 }
-.sw-newsletter-message { margin: 0; padding: .7rem 1.1rem; border-radius: 999px; font-size: .9rem; font-weight: 600; }
-.sw-newsletter-message.is-success { background: rgba(255,255,255,.12); color: #fff; }
-.sw-newsletter-message.is-error { width: 100%; margin-top: .5rem; background: transparent; color: #ffb4a1; padding: 0; }
+.sw-newsletter-message { display: block; margin: 0; padding: .7rem 0 0; font-size: .9rem; font-weight: 600; color: #fff; }
+.sw-newsletter-message.is-error { color: #ffb4a1; }
 
-/* Single stacked column at every screen size, by request: About, then
-   Quick Links, then any widgets the site owner adds — one on top of
-   the other (1, 2, 3…), not side-by-side columns. */
-.footer-widgets { padding: clamp(2.5rem,6vw,4rem) 0; display: flex; flex-direction: column; gap: 2.25rem; max-width: 640px; }
+/* One column on mobile (Newsletter, Social, Quick Links, About stacked
+   in that order), four side by side from desktop width up. */
+.footer-widgets { padding: clamp(2.5rem,6vw,4rem) 0; display: grid; gap: 2.25rem; grid-template-columns: 1fr; }
 .footer-widgets .widget { background: rgba(255,255,255,.05); border-color: rgba(255,255,255,.12); }
 .footer-widgets .widget-title { border-bottom-color: rgba(255,255,255,.15); }
 .footer-widgets .widget ul li { border-bottom-color: rgba(255,255,255,.1); }
+@media (min-width: 48em) {
+	.footer-widgets { grid-template-columns: repeat(2,1fr); }
+}
+@media (min-width: 68em) {
+	.footer-widgets { grid-template-columns: repeat(4,1fr); }
+}
 
-.footer-bottom { border-top: 1px solid rgba(255,255,255,.12); padding: 1.5rem 0; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; font-size: .85rem; }
-.footer-social { display: flex; gap: .6rem; }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,.12); padding: 1.5rem 0; text-align: center; font-size: .85rem; }
+.footer-social { display: flex; flex-wrap: wrap; gap: .6rem; }
 .footer-social a { width: 38px; height: 38px; border-radius: 50%; border: 1px solid rgba(255,255,255,.25); display: flex; align-items: center; justify-content: center; }
 .footer-social a:hover { background: rgba(255,255,255,.12); }
 .footer-menu ul { display: flex; flex-wrap: wrap; gap: 1.25rem; }
