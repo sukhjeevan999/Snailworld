@@ -167,12 +167,12 @@ function snailworld_has_social_links() {
  */
 function snailworld_social_icons() {
 	$socials = array( 'facebook', 'instagram', 'twitter', 'youtube', 'pinterest' );
-	$labels  = array(
-		'facebook'  => 'FB',
-		'instagram' => 'IG',
-		'twitter'   => 'X',
-		'youtube'   => 'YT',
-		'pinterest' => 'PT',
+	$icons   = array(
+		'facebook'  => 'social-facebook',
+		'instagram' => 'social-instagram',
+		'twitter'   => 'social-x',
+		'youtube'   => 'social-youtube',
+		'pinterest' => 'social-pinterest',
 	);
 	$output = '';
 	foreach ( $socials as $key ) {
@@ -184,7 +184,7 @@ function snailworld_social_icons() {
 			'<a href="%1$s" target="_blank" rel="noopener noreferrer" aria-label="%2$s">%3$s</a>',
 			esc_url( $url ),
 			esc_attr( ucfirst( $key ) ),
-			esc_html( $labels[ $key ] )
+			snailworld_icon( $icons[ $key ], array( 'echo' => false ) )
 		);
 	}
 	if ( $output ) {

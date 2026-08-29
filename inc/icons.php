@@ -45,6 +45,12 @@ function snailworld_icon_paths( $name ) {
 		'folder'       => '<path d="M3.5 6.5a1.5 1.5 0 0 1 1.5-1.5h4.4l1.8 2H19a1.5 1.5 0 0 1 1.5 1.5v9A1.5 1.5 0 0 1 19 19H5a1.5 1.5 0 0 1-1.5-1.5Z"/>',
 		'arrow-right'  => '<path d="M4 12h16"/><path d="m14 6 6 6-6 6"/>',
 		'arrow-left'   => '<path d="M20 12H4"/><path d="m10 6-6 6 6 6"/>',
+		// Social icons — line art, same stroke style as the rest of the set.
+		'social-facebook'  => '<path d="M15 4h-2a4 4 0 0 0-4 4v3H6v4h3v7h4v-7h2.5l.5-4H13V8a1 1 0 0 1 1-1h3V4Z"/>',
+		'social-instagram' => '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".6" fill="currentColor" stroke="none"/>',
+		'social-x'         => '<path d="M5 5 19 19"/><path d="M19 5 5 19"/>',
+		'social-youtube'   => '<rect x="2.5" y="6" width="19" height="12" rx="4"/><path d="M10.5 9.5 15 12l-4.5 2.5Z"/>',
+		'social-pinterest' => '<circle cx="12" cy="12" r="9"/><path d="M9.5 18c.7-2 1.7-5.6 1.7-5.6"/><path d="M9.8 13.8a2.6 2.6 0 0 1-.3-2.9c.7-1.5 2-2.3 3.4-2.3 1.9 0 3.3 1.3 3.3 3.2 0 2.3-1.2 4.4-3.1 4.4a1.8 1.8 0 0 1-1.7-1"/>',
 	);
 
 	return isset( $icons[ $name ] ) ? $icons[ $name ] : $icons['leaf'];
